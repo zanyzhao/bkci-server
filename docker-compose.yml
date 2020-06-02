@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  mysql:
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    image: mysql:5.7
+    container_name: bkci_mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./ci/support-files/sql:/sql
+      - ./scripts:/scripts
+    networks:
+      - default
+
+  consul:
+    image: consul:latest
+    container_name: bkci_consul
+    command: agent -server -datacenter=dc -domain=ci -bootstrap -client=0.0.0.0
+    networks:
+      - default
+
+  es:
+    environment:
+      - discovery.type=single-node
+    image: elasticsearch:6.8.8
+    container_name: bkci_es
+    networks:
+      - default
+
+  redis:
+    image: redis:2.8.17
+    container_name: bkci_redis
+    command: redis-server --appendonly yes --requirepass "123456"
+    networks:
+      - default
+  mq:
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=ci
+    image: bkci/mq:latest
+    container_name: bkci_mq
+    networks:
+      - default
+
+  frontend:
+    image: "bkci/gw:latest"
+    container_name: bkci_frontend
+    ports:
+      - 80:80
+    depends_on:
+      - consul
+    volumes:
+      - ./ci/gateway/core/:/usr/local/openresty/nginx/conf
+      - ./ci/frontend/:/data/docker/bkci/ci/frontend
+    networks:
+      - default
+
+  backend:
+    image: "bkci/backend:latest"
+    container_name: bkci_backend
+    command: tail -f /dev/null
+    depends_on:
+      - mysql
+      - consul
+      - es
+      - redis
+      - mq
+    volumes:
+      - ./ci/:/data/docker/bkci/ci
+      - ./etc/:/data/docker/bkci/etc
+      - ./scripts:/scripts
+    networks:
+      - default
+networks:
+  default:
