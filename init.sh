@@ -5,7 +5,7 @@ set -eu
 function check_cmd(){
   # check command existed
 	cmd=$1
-	command -v $cmd >/dev/null 2>&1 || {echo >&2 "need $cmd but it's not installed. " && exit 1}
+	command -v $cmd >/dev/null 2>&1 || (echo >&2 "need $cmd but it's not installed. " && exit 1)
 }
 
 function install_compose(){
