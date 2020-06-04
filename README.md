@@ -19,10 +19,9 @@ git clone https://github.com/zanyzhao/bkci-server.git bkci
 ```
 
 - 下载并运行最新版的bkci release包（可重复运行）
-LATEST_TAG为[bk-ci](https://github.com/Tencent/bk-ci/releases)里的最新Release
 ```shell
 cd /data/docker/bkci || exit 1
-LATEST_TAG=v1.0.0
+LATEST_TAG=v1.0.0 #LATEST_TAG为bk-ci的最新Release
 wget https://github.com/Tencent/bk-ci/releases/download/$LATEST_TAG/bkci.tar.gz -O bkci.tar.gz
 tar xzvf bkci.tar.gz
 mv bkci ci
