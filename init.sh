@@ -40,6 +40,7 @@ function generate_config(){
 
 function main(){
   cd /data/docker/bkci || (echo "workdir not found, exit.." && exit 1)
+  check_cmd docker
   check_cmd docker-compose || install_compose
   create_network
   test -d ci || (echo "ci not found, exit.." && exit 1)
