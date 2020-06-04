@@ -57,7 +57,7 @@ function main(){
 
   # patch db
   echo "patch multi sql to mysql.."
-  sleep 5
+  sleep 15
   docker-compose exec mysql bash -c "/scripts/patch_sql.sh"
 
   # launch all services
