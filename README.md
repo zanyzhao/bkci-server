@@ -14,6 +14,7 @@
 ```shell
 # 设置工作目录
 mkdir -p /data/docker/
+cd /data/docker
 git clone https://github.com/zanyzhao/bkci-server.git bkci
 ```
 
