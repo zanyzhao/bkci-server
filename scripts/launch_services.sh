@@ -1,5 +1,5 @@
 cd /data/docker/bkci/ci/ || exit 1
-if ![[ "$1" =~ "start|stop|restart" ]];then
+if [[ ! "$1" =~ "start|stop|restart" ]];then
   exit 1
 fi
 for i in */boot-*.sh;do
