@@ -5,15 +5,17 @@ set -eu
 function check_cmd(){
   # check command existed
 	cmd=$1
-	command -v $cmd >/dev/null 2>&1 || { echo >&2 "need $cmd but it's not installed.  Aborting."; return 1; }
+	command -v $cmd >/dev/null 2>&1 || { echo >&2 "need $cmd but it's not installed. }
 }
 
 function install_compose(){
   # install docker-compose
   echo "docker-compose not exist, start installing.."
   sleep 1
-  curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  chmod +x /usr/local/bin/docker-compose
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+  sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
 }
 
 function create_network(){
