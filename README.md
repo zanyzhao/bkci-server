@@ -30,7 +30,7 @@ mv bkci ci
 
 - 在本地配置hosts，以macOS为例
 ```shell
-sudo echo "${SERVER_INNER_IP} my-dev.ci.com" >> /etc/hosts
+sudo echo "${SERVER_IP} my-dev.ci.com" >> /etc/hosts
 ```
 
 - 本地浏览器访问 http://my-dev.ci.com
