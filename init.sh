@@ -28,7 +28,6 @@ function create_network(){
 
 function generate_config(){
   # compose up
-  cp -vf bkenv.properties ci/scripts/
   cd ci/scripts && ./render_tpl -m ci ../support-files/templates/*
   cd ../../
   sed -i '/开发时需要配置Host解析到iam.service.consul/,$d' etc/ci/common.yml
