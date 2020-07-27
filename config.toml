@@ -1,0 +1,8 @@
+contentdir = "content"
+layoutdir = "layouts"
+publishdir = "public"
+[indexes]
+  category = "categories"
+baseurl = "http://zanyzhao.github.io/bkci-server"
+title = "Hugo Blog Template for GitHub Pages"
+canonifyurls = true
