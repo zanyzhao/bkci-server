@@ -1,6 +1,6 @@
 contentdir = "content"
 layoutdir = "layouts"
-publishdir = "public"
+publishdir = "docs"
 [indexes]
   category = "categories"
 baseurl = "http://zanyzhao.github.io/bkci-server"
