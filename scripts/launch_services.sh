@@ -1,7 +1,7 @@
 cd /data/docker/bkci/ci/ || exit 1
-if ![[ "$1" =~ "start|stop|restart" ]];then
-  exit 1
-fi
+
+sed -i 's/2g/256m/g' */boot-*.sh
+
 for i in */boot-*.sh;do
   case $i in
     *notify*) continue;;

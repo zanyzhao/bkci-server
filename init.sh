@@ -5,15 +5,17 @@ set -eu
 function check_cmd(){
   # check command existed
 	cmd=$1
-	command -v $cmd >/dev/null 2>&1 || { echo >&2 "need $cmd but it's not installed.  Aborting."; return 1; }
+	command -v $cmd >/dev/null 2>&1 || (echo >&2 "need $cmd but it's not installed. " && exit 1)
 }
 
 function install_compose(){
   # install docker-compose
   echo "docker-compose not exist, start installing.."
   sleep 1
-  curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  chmod +x /usr/local/bin/docker-compose
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+  sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
 }
 
 function create_network(){
@@ -26,7 +28,6 @@ function create_network(){
 
 function generate_config(){
   # compose up
-  cp -vf bkenv.properties ci/scripts/
   cd ci/scripts && ./render_tpl -m ci ../support-files/templates/*
   cd ../../
   sed -i '/开发时需要配置Host解析到iam.service.consul/,$d' etc/ci/common.yml
@@ -38,6 +39,7 @@ function generate_config(){
 
 function main(){
   cd /data/docker/bkci || (echo "workdir not found, exit.." && exit 1)
+  check_cmd docker
   check_cmd docker-compose || install_compose
   create_network
   test -d ci || (echo "ci not found, exit.." && exit 1)
@@ -57,7 +59,7 @@ function main(){
 
   # patch db
   echo "patch multi sql to mysql.."
-  sleep 3
+  sleep 15
   docker-compose exec mysql bash -c "/scripts/patch_sql.sh"
 
   # launch all services
